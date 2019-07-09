@@ -5,9 +5,11 @@ import io.atomix.cluster.discovery.BootstrapDiscoveryProvider;
 import io.atomix.core.Atomix;
 import io.atomix.core.AtomixBuilder;
 import io.atomix.core.profile.ConsensusProfile;
+import io.atomix.primitive.Recovery;
 import io.atomix.protocols.raft.MultiRaftProtocol;
 import io.atomix.protocols.raft.ReadConsistency;
 import io.atomix.protocols.raft.session.CommunicationStrategy;
+import io.atomix.protocols.raft.session.RecoveryStrategy;
 import io.atomix.utils.net.Address;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
@@ -125,6 +127,7 @@ public class ServerThread implements Runnable {
 						.withProtocol(MultiRaftProtocol.builder()
 								.withReadConsistency(ReadConsistency.LINEARIZABLE)
 								.withCommunicationStrategy(CommunicationStrategy.LEADER)
+								.withRecoveryStrategy(Recovery.RECOVER)
 								.build())
 						.build());
 
